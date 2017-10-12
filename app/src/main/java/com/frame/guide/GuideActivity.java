@@ -1,5 +1,6 @@
 package com.frame.guide;
 
+import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -103,5 +104,11 @@ public class GuideActivity extends FragmentActivity {
     protected void onDestroy() {
         super.onDestroy();
         vp.clearOnPageChangeListeners();
+    }
+
+    //跳转到主界面  销毁当前Activity
+    public void startMainActivity(){
+       startActivity(new Intent(this,MainActivity.class));
+        finish();
     }
 }

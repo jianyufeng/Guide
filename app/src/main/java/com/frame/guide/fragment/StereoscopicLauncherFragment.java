@@ -2,7 +2,6 @@ package com.frame.guide.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,8 +12,8 @@ import android.view.animation.AnimationSet;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
-import android.widget.Toast;
 
+import com.frame.guide.GuideActivity;
 import com.frame.guide.R;
 
 /**
@@ -79,13 +78,6 @@ public class StereoscopicLauncherFragment extends LauncherBaseFragment implement
 
     @Override
     public void onClick(View view) {
-        Toast toast = Toast.makeText(getContext(), "跳转到主页", Toast.LENGTH_LONG);
-        ImageView imageView = new ImageView(getContext());
-//        imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        imageView.setImageResource(R.mipmap.ic_launcher);
-        toast.setView(imageView);
-        toast.setGravity(Gravity.CENTER,0,0);
-        toast.show();
-
+        ((GuideActivity)getActivity()).startMainActivity();//跳转到主界面
     }
 }
