@@ -24,6 +24,7 @@
             android:src="@drawable/icon_receive_apicture" />
 
         <ImageView
+            android:id="@+id/iv_gold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"

@@ -1,5 +1,6 @@
 package com.frame.guide;
 
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
@@ -9,7 +10,10 @@ import android.widget.LinearLayout;
 
 import com.frame.guide.adapter.BaseFragmentAdapter;
 import com.frame.guide.fragment.LauncherBaseFragment;
+import com.frame.guide.fragment.PrivateMessageLauncherFragment;
 import com.frame.guide.fragment.RewardLauncherFragment;
+import com.frame.guide.fragment.StereoscopicLauncherFragment;
+import com.frame.guide.view.GuideViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +23,10 @@ import java.util.List;
  */
 public class GuideActivity extends FragmentActivity {
 
-    private ViewPager vp;
+    private GuideViewPager vp;
     private ImageView[] tips;
-    private List<LauncherBaseFragment> list = new ArrayList<LauncherBaseFragment>();
+    private List<LauncherBaseFragment> list = new ArrayList<>();
+    private int curretSelect = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,26 +41,31 @@ public class GuideActivity extends FragmentActivity {
                     ViewGroup.LayoutParams.WRAP_CONTENT);
             params.leftMargin = 20;
             params.rightMargin = 20;
-            if (i==0){
+            if (i == 0) {
                 imageView.setBackgroundResource(R.drawable.page_indicator_focused);
-            }else {
+            } else {
                 imageView.setBackgroundResource(R.drawable.page_indicator_unfocused);
             }
             tips[i] = imageView;
-            group.addView(imageView,params);
+            group.addView(imageView, params);
         }
 
         //初始化三个fragment添加的集合中
         vp = findViewById(R.id.vp);
-//        vp.setBackGround();
+        vp.setBackGround(BitmapFactory.decodeResource(getResources(),R.drawable.bg_kaka_launcher));
         RewardLauncherFragment rewardLauncherFragment = new RewardLauncherFragment();
+        PrivateMessageLauncherFragment privateMessageLauncherFragment = new PrivateMessageLauncherFragment();
+        StereoscopicLauncherFragment stereoscopicLauncherFragment = new StereoscopicLauncherFragment();
         list.add(rewardLauncherFragment);
+        list.add(privateMessageLauncherFragment);
+        list.add(stereoscopicLauncherFragment);
         BaseFragmentAdapter fragmentAdapter = new BaseFragmentAdapter(getSupportFragmentManager(), list);
         vp.setAdapter(fragmentAdapter);
         vp.setOffscreenPageLimit(2);
-        vp.setCurrentItem(0);
+        vp.setCurrentItem(curretSelect);
         vp.addOnPageChangeListener(changeListener);
     }
+
     ViewPager.OnPageChangeListener changeListener = new ViewPager.OnPageChangeListener() {
         @Override
         public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -64,7 +74,12 @@ public class GuideActivity extends FragmentActivity {
 
         @Override
         public void onPageSelected(int position) {
-
+            setImageBackground(position);//改变点点的切换效果
+            //开始播放动画
+            LauncherBaseFragment fragment = list.get(position);
+            list.get(curretSelect).stopAnimation();//停止上个的动画
+            fragment.startAnimation();
+            curretSelect = position;
         }
 
         @Override
@@ -73,5 +88,20 @@ public class GuideActivity extends FragmentActivity {
         }
     };
 
+    private void setImageBackground(int position) {
+        for (int i = 0; i < tips.length; i++) {
+            if (i == position) {
+                tips[i].setBackgroundResource(R.drawable.page_indicator_focused);
+            } else {
+                tips[i].setBackgroundResource(R.drawable.page_indicator_unfocused);
 
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        vp.clearOnPageChangeListeners();
+    }
 }
