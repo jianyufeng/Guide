@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * 引导界面
- * jian1 分支
+ * jian1 分支 个地方
  */
 public class GuideActivity extends FragmentActivity {
 
