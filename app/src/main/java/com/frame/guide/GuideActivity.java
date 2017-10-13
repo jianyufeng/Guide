@@ -20,9 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 引导界面
- * jian1 分支
- */
+ * 引导界面he */
 public class GuideActivity extends FragmentActivity {
 
     private GuideViewPager vp;
