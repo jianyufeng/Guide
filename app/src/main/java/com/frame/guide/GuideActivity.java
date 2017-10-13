@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- */
  * 引导界面
  */
 public class GuideActivity extends FragmentActivity {
